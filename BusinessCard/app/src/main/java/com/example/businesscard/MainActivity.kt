@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
@@ -41,7 +43,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             BusinessCardTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    ContactInfos(
+                    BusinessCard(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -59,7 +61,7 @@ fun BottomCardRow(icon: ImageVector, iconName: String, contactInfo: String, modi
         Icon(
             imageVector = icon,
             contentDescription = "An $iconName icon",
-            tint = colorResource(id = R.color.teal_700)
+            tint = colorResource(id = R.color.highlight)
         )
         Spacer(Modifier.width(24.dp))
         Text(
@@ -69,8 +71,14 @@ fun BottomCardRow(icon: ImageVector, iconName: String, contactInfo: String, modi
 }
 
 @Composable
+fun BusinessCard(modifier: Modifier = Modifier) {
+    ContactInfos(modifier)
+    PersonInfo()
+}
+
+@Composable
 fun PersonInfo(modifier: Modifier = Modifier) {
-    val image = painterResource(id = R.drawable.ic_launcher_foreground)
+    val image = painterResource(id = R.drawable.perfil)
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -80,7 +88,9 @@ fun PersonInfo(modifier: Modifier = Modifier) {
         Image(
             painter = image,
             contentDescription = stringResource(R.string.text_photo),
-            modifier = modifier.padding(bottom = 16.dp)
+            modifier = modifier
+                .size(200.dp)
+                .padding(bottom = 16.dp)
         )
         Text(
             text = stringResource(R.string.text_name),
@@ -92,7 +102,7 @@ fun PersonInfo(modifier: Modifier = Modifier) {
         Text(
             text = stringResource(R.string.text_title),
             fontWeight = FontWeight.Bold,
-            color = colorResource(id = R.color.teal_700)
+            color = colorResource(id = R.color.highlight)
         )
     }
 }
@@ -102,26 +112,28 @@ fun ContactInfos(modifier: Modifier = Modifier) {
     Column(
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
+            .background(colorResource(id = R.color.background))
     )
     {
         BottomCardRow(
             icon = Icons.Default.Call,
             iconName = Icons.Default.Call.name,
             contactInfo = stringResource(R.string.text_phone),
-            modifier = modifier
+            modifier = Modifier
         )
         BottomCardRow(
             icon = Icons.Default.Share,
             iconName = Icons.Default.Share.name,
             contactInfo = stringResource(R.string.text_social_media),
-            modifier = modifier.padding(top = 16.dp, bottom = 16.dp)
+            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
         )
         BottomCardRow(
             icon = Icons.Default.Email,
             iconName = Icons.Default.Email.name,
             contactInfo = stringResource(R.string.text_email_address),
-            modifier = modifier.padding(bottom = 24.dp)
+            modifier = Modifier.padding(bottom = 32.dp)
         )
     }
 }
@@ -133,6 +145,6 @@ fun ContactInfos(modifier: Modifier = Modifier) {
 @Composable
 fun BusinessCardPreview() {
     BusinessCardTheme {
-        PersonInfo()
+        BusinessCard()
     }
 }
