@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Business Card</string>
+    <string name="text_phone">+55 (61) 99664–3483</string>
+    <string name="text_social_media">\@amiaram</string>
+    <string name="text_email_address">amiaram91@gmail.com</string>
+    <string name="text_photo">Profile Photo</string>
+    <string name="text_name">Ami Morais</string>
+    <string name="text_title">Android Developer Extraordinaire</string>
+</resources>
