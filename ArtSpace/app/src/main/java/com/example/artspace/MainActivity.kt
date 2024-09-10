@@ -20,8 +20,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -47,33 +52,65 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+enum class ArtDisplayed {
+    PSYDUCKS, FARFETCHDS, PIKACHUS
+}
+
+class Art (
+    val image: Painter,
+    val imageDescription: String,
+    val title: String,
+    val artist: String,
+    val year: String
+)
+
 @Composable
 fun ArtSpace(modifier: Modifier = Modifier) {
+    var artDisplayed by remember { mutableStateOf(ArtDisplayed.PSYDUCKS) }
+
+    val art = when (artDisplayed) {
+        ArtDisplayed.PSYDUCKS -> Art(
+            image = painterResource(id = R.drawable._04ddb287758d86296047b8ac3de2477),
+            imageDescription = stringResource(id = R.string.psyducks_content_description),
+            title = stringResource(id = R.string.psyducks_artwork_title),
+            artist = stringResource(id = R.string.psyducks_artwork_artist),
+            year = stringResource(id = R.string.psyducks_artwork_year)
+        )
+        ArtDisplayed.FARFETCHDS -> Art(
+            image = painterResource(id = R.drawable._579667fb1cacc2f8364530865910e57),
+            imageDescription = stringResource(id = R.string.farfetchds_content_description),
+            title = stringResource(id = R.string.farfetchds_title),
+            artist = stringResource(id = R.string.farfetchds_artist),
+            year = stringResource(id = R.string.farfetchds_year)
+        )
+        else -> Art(
+            image = painterResource(id = R.drawable._da00b17bf13dac259da13d0e7fa8135),
+            imageDescription = stringResource(id = R.string.pikachus_content_description),
+            title = stringResource(id = R.string.pikachus_title),
+            artist = stringResource(id = R.string.pikachus_artist),
+            year = stringResource(id = R.string.pikachus_year))
+    }
     Column (
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-    )
-    {
-        ArtWall(
-            imageResourceId = R.drawable._04ddb287758d86296047b8ac3de2477,
-            contentDescriptionResourceId = R.string.psyducks_content_description
-        )
-        ArtDescriptor(
-            titleResourceId = R.string.psyducks_artwork_title,
-            artistResourceId = R.string.psyducks_artwork_artist,
-            yearResourceId = R.string.psyducks_artwork_year
-        )
+    ) {
+        ArtWall(art)
         Spacer(modifier = modifier.height(50.dp))
     }
     Column (
         verticalArrangement = Arrangement.Bottom,
         modifier = modifier.fillMaxSize()
-    )
-    {
+    ) {
         Row {
             Button (
-                onClick = { /*TODO*/ },
+                onClick = {
+                    artDisplayed = when (artDisplayed) {
+                        ArtDisplayed.PSYDUCKS -> ArtDisplayed.PIKACHUS
+                        ArtDisplayed.PIKACHUS -> ArtDisplayed.FARFETCHDS
+                        else -> ArtDisplayed.PSYDUCKS
+                    }
+                },
                 modifier = Modifier
                     .weight(0.5f)
                     .padding(
@@ -84,7 +121,13 @@ fun ArtSpace(modifier: Modifier = Modifier) {
                 Text(text = stringResource(R.string.previous_button))
             }
             Button (
-                onClick = { /*TODO*/ },
+                onClick = {
+                    artDisplayed = when (artDisplayed) {
+                        ArtDisplayed.PSYDUCKS -> ArtDisplayed.FARFETCHDS
+                        ArtDisplayed.FARFETCHDS -> ArtDisplayed.PIKACHUS
+                        else -> ArtDisplayed.PSYDUCKS
+                    }
+                },
                 modifier = Modifier
                     .weight(0.5f)
                     .padding(
@@ -99,11 +142,8 @@ fun ArtSpace(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ArtWall (
-    imageResourceId: Int,
-    contentDescriptionResourceId: Int,
-) {
-    Surface (
+fun ArtWall(art: Art) {
+    Surface(
         shadowElevation = 8.dp,
         modifier = Modifier
             .height(500.dp)
@@ -113,45 +153,33 @@ fun ArtWall (
             )
     ){
         Image(
-            painter = painterResource(imageResourceId),
-            contentDescription = stringResource(contentDescriptionResourceId),
+            painter = art.image,
+            contentDescription = art.imageDescription,
             modifier = Modifier
                 .padding(32.dp)
         )
     }
-}
-
-@Composable
-fun ArtDescriptor (
-    titleResourceId: Int,
-    artistResourceId: Int,
-    yearResourceId: Int
-) {
-    Surface (
+    // Art Descriptor
+    Surface(
         color = Color.LightGray,
         modifier = Modifier
             .fillMaxWidth()
             .padding(all = 16.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(24.dp)
-        )
-        {
+        Column(modifier = Modifier.padding(24.dp)) {
             Text(
                 fontWeight = FontWeight.Light,
                 fontSize = 24.sp,
-                text = stringResource(titleResourceId),
+                text = art.title,
                 textAlign = TextAlign.Start,
             )
             Row {
                 Text(
-                    text = stringResource(artistResourceId),
+                    text = art.artist,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(end = 8.dp)
                 )
-                Text(
-                    text = "(${stringResource(yearResourceId)})"
-                )
+                Text(text = "(${art.year})")
             }
         }
     }
@@ -162,7 +190,7 @@ fun ArtDescriptor (
     showSystemUi = true
 )
 @Composable
-fun GreetingPreview() {
+fun ArtSpacePreview() {
     ArtSpaceTheme {
         ArtSpace()
     }
