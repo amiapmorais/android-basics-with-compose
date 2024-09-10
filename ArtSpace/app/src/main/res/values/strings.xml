@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Art Space</string>
+    <string name="psyducks_content_description">Many Psyducks in a market acting like humans</string>
+    <string name="psyducks_artwork_title">Psyducks on market street</string>
+    <string name="psyducks_artwork_artist">Misty</string>
+    <string name="psyducks_artwork_year">1993</string>
+    <string name="previous_button">Previous</string>
+    <string name="next_button">Next</string>
+    <string name="farfetchds_artist">Professor Carvalho</string>
+    <string name="farfetchds_content_description">Six Farfetch\'ds on an abandoned light rail train at an abandoned station</string>
+    <string name="farfetchds_title">The Last of Farfetch\'ds</string>
+    <string name="farfetchds_year">2099</string>
+    <string name="pikachus_artist">Ash Ketchum</string>
+    <string name="pikachus_content_description">Pikachus stealing soda from a soda machine</string>
+    <string name="pikachus_title">Pikachus\'love for soda</string>
+    <string name="pikachus_year">1995</string>
+</resources>
