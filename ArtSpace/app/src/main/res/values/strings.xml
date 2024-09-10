@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Art Space</string>
+    <string name="psyducks_content_description">Many Psyducks in a market acting like humans</string>
+    <string name="psyducks_artwork_title">Psyducks on market street</string>
+    <string name="psyducks_artwork_artist">Misty</string>
+    <string name="psyducks_artwork_year">(1993)</string>
+    <string name="previous_button">Previous</string>
+    <string name="next_button">Next</string>
 </resources>
