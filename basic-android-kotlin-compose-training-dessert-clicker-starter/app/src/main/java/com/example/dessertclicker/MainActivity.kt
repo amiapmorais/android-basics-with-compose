@@ -54,8 +54,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -177,16 +178,16 @@ private fun DessertClickerApp(
     desserts: List<Dessert>
 ) {
 
-    var revenue by remember { mutableStateOf(0) }
-    var dessertsSold by remember { mutableStateOf(0) }
+    var revenue by rememberSaveable { mutableIntStateOf(0) }
+    var dessertsSold by rememberSaveable { mutableIntStateOf(0) }
 
-    val currentDessertIndex by remember { mutableStateOf(0) }
+    val currentDessertIndex by rememberSaveable { mutableIntStateOf(0) }
 
-    var currentDessertPrice by remember {
+    var currentDessertPrice by rememberSaveable {
         mutableStateOf(desserts[currentDessertIndex].price)
     }
-    var currentDessertImageId by remember {
-        mutableStateOf(desserts[currentDessertIndex].imageId)
+    var currentDessertImageId by rememberSaveable {
+        mutableIntStateOf(desserts[currentDessertIndex].imageId)
     }
 
     Scaffold(
@@ -204,9 +205,11 @@ private fun DessertClickerApp(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        start = WindowInsets.safeDrawing.asPaddingValues()
+                        start = WindowInsets.safeDrawing
+                            .asPaddingValues()
                             .calculateStartPadding(layoutDirection),
-                        end = WindowInsets.safeDrawing.asPaddingValues()
+                        end = WindowInsets.safeDrawing
+                            .asPaddingValues()
                             .calculateEndPadding(layoutDirection),
                     )
                     .background(MaterialTheme.colorScheme.primary)
